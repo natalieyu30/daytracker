@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 
+:root {
+  --main: 271;
+  --main-color: hsl(var(--main), 58%, 53%);
+  --main-alt-color: hsl(var(--main), 75%, 60%);
+  --text-color: hsl(var(--main), 80%, 28%);
+  --text-alt-color: hsl(var(--main), 10%, 58%);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -9,15 +17,16 @@
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
+  color: #444;
 }
 
 a {
   text-decoration: none;
-  color: #000;
+  color: var(--text-color);
 }
 
 p {
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 ul {
@@ -35,9 +44,15 @@ h3 {
   margin-bottom: 10px;
 }
 
+h1,
+h2 {
+  color: var(--text-color);
+  margin: 0;
+}
+
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1160px;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
@@ -68,7 +83,7 @@ h3 {
 }
 
 .header ul li a:hover {
-  color: #777;
+  color: var(--main-color);
 }
 
 .header ul li a svg {
@@ -78,39 +93,80 @@ h3 {
 .heading {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   padding: 0 20px;
 }
 
 .heading p {
-  color: #828282;
+  color: var(--text-alt-color);
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.heading .date {
+  font-size: 1.2rem;
 }
 
 .goals {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding-top: 10px;
 }
 
 .goal {
   background-color: #f4f4f4;
-  margin: 10px 0;
-  padding: 20px 0 10px;
-  position: relative;
+  margin: 0;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
 }
 
+.goal .left {
+  flex: 3;
+}
+
+.goal .right {
+  flex: 1.5;
+}
+
+.goal .date {
+  font-size: 0.8rem;
+}
+
+.goal .left p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+.completed {
+  text-decoration: line-through;
+}
+
+.goal .check,
 .goal .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
+  font-size: 1.1rem;
   cursor: pointer;
   border: none;
   background: none;
+  margin-right: 18px;
 }
 
-.form,
-.content {
+.goal .check {
+  color: hsl(150, 70%, 34%);
+}
+
+.goal .close {
+  color: hsl(348, 70%, 60%);
+}
+
+.form {
   width: 70%;
+  margin: 0 auto;
+}
+
+.content,
+.dashform {
+  width: 90%;
   margin: 0 auto;
 }
 
@@ -137,9 +193,9 @@ h3 {
 
 .btn {
   padding: 10px 20px;
-  border: 1px solid #000;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
-  background: #000;
+  background: var(--main-color);
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -152,12 +208,12 @@ h3 {
 }
 
 .btn svg {
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .btn-reverse {
   background: #fff;
-  color: #000;
+  color: var(--main-alt-color);
 }
 
 .btn-block {
@@ -166,7 +222,8 @@ h3 {
 }
 
 .btn:hover {
-  transform: scale(0.98);
+  transform: scale(0.99);
+  background-color: var(--main-alt-color);
 }
 
 .loadingSpinnerContainer {
@@ -200,6 +257,12 @@ h3 {
   }
 }
 
+@media (max-width: 960px) {
+  .goals {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 600px) {
   .form {
     width: 90%;
@@ -209,7 +272,10 @@ h3 {
     font-size: 2rem;
   }
 
-  .heading p {
-    font-size: 1.5rem;
+  .goals {
+    grid-template-columns: 1fr;
+  }
+  .goal {
+    margin: 0;
   }
 }

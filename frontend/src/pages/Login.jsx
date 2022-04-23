@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
-import { FaSignInAlt } from "react-icons/fa";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,12 +21,9 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate("/");
-    }
+    if (isError) toast.error(message);
+    if (isSuccess || user) navigate("/");
+    
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
@@ -52,9 +48,9 @@ const Login = () => {
   return (
     <>
       <section className="heading">
-        <h2>
-          <FaSignInAlt /> Login
-        </h2>
+        <h1>
+          Login
+        </h1>
         <p>Login and start setting your day</p>
       </section>
 

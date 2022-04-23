@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createGoal } from "../features/goals/goalSlice";
 
 const GoalForm = () => {
@@ -14,7 +14,7 @@ const GoalForm = () => {
   };
 
   return (
-    <section className="form">
+    <section className="form dashform">
       <form onSubmit={submitForm}>
         <div className="form-group">
           <label htmlFor="text">Todos</label>
@@ -27,9 +27,7 @@ const GoalForm = () => {
           />
         </div>
         <div className="form-group">
-          <button className="btn btn-block" type="submit">
-            Add
-          </button>
+          <button className="btn btn-block" type="submit">Add</button>
         </div>
       </form>
     </section>

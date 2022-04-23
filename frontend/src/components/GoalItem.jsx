@@ -1,17 +1,33 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { deleteGoal } from "../features/goals/goalSlice";
+import React, {useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getGoals, updateGoal, deleteGoal, reset } from "../features/goals/goalSlice";
+import { FaTrash, FaCheck } from "react-icons/fa";
 
-const GoalItem = ({ goal }) => {
+const GoalItem = ({ goal, onCheckClick }) => {
   const dispatch = useDispatch();
 
   return (
     <div className="goal">
-      <div>{new Date(goal.createdAt).toLocaleString("en-US")}</div>
-      <h2>{goal.text}</h2>
-      <button onClick={() => dispatch(deleteGoal(goal._id))} className="close">
-        X
-      </button>
+      <div className="left">
+        <span className="date">
+          {new Date(goal.createdAt).toLocaleString("en-US")}
+        </span>
+        <p className={`${goal.completed ? "completed" : ""}`}>{goal.text}</p>
+      </div>
+      <div className="right">
+        <button
+          className="check"
+          onClick={() => onCheckClick(goal._id)}
+        >
+          <FaCheck />
+        </button>
+        <button
+          className="close"
+          onClick={() => dispatch(deleteGoal(goal._id))}
+        >
+          <FaTrash />
+        </button>
+      </div>
     </div>
   );
 };

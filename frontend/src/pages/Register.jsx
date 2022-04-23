@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaUser } from "react-icons/fa";
 import { register, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
 
@@ -23,12 +22,9 @@ const Register = () => {
   );
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate("/");
-    }
+    if (isError) toast.error(message);
+    if (isSuccess || user)  navigate("/");
+    
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
@@ -42,7 +38,7 @@ const Register = () => {
   const submitForm = (e) => {
     e.preventDefault();
 
-    if (password != password2) {
+    if (password !== password2) {
       toast.error("Passwords do not match");
     } else {
       const userData = { name, email, password };
@@ -58,7 +54,7 @@ const Register = () => {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Register
+          Register
         </h1>
         <p>Please create an account</p>
       </section>

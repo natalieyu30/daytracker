@@ -12,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!name || !email || !password) {
     res.status(400);
-    throw new Error("Plese add all fields");
+    throw new Error("Please add all fields");
   }
 
   // check if user exists
@@ -42,7 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Authenticate a user
+// @desc Login / Authenticate a user
 // @route POST / api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res) => {
@@ -64,6 +64,36 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// // @desc Update a user information
+// // @route PUT / api/users/:userId
+// // @access Private
+// const updateUser = asyncHandler(async (req, res) => {
+//   // if the user id == params.userId
+//   if (req.params.userId == req.user._id) {
+//     const { name, email, password } = req.body;
+
+//     // check if user exists
+//     const userExists = await User.findOne({ email });
+//     if (userExists) {
+//       res.status(400);
+//       throw new Error("Email already exists");
+//     }
+
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
+
+//     const updatedUser = await User.findByIdAndUpdate(
+//       req.params.userId,
+//       { name, email, hashedPassword },
+//       { new: true }
+//     ).select("-password");
+//     res.status(200).json(updatedUser);
+//   } else {
+//     res.status(400);
+//     throw new Error("Invalid credentials");
+//   }
+// });
+
 // @desc Get user data
 // @route GET / api/users/me
 // @access Private
@@ -82,4 +112,5 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  // updateUser,
 };

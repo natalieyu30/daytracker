@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from "./authService";
+import axios from 'axios';
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem("user"));
@@ -12,17 +12,18 @@ const initialState = {
   message: "",
 };
 
-// Register user
+// register user
 export const register = createAsyncThunk(
   "auth/register",
   async (user, thunkAPI) => {
     try {
-      return await authService.register(user);
+      const response = await axios.post("/api/users/", user);
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+      }
+      return response.data;
     } catch (err) {
-      const message =
-        (err.response && err.response.data && err.response.data.message) ||
-        err.message ||
-        err.toString();
+      const message = err.response.data.message || err.message || err.toString();
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -31,18 +32,20 @@ export const register = createAsyncThunk(
 // login user
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
-    return await authService.login(user);
+    const response = await axios.post("/api/users/login", user);
+    if (response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
   } catch (err) {
-    const message =
-      (err.response && err.response.data && err.response.data.message) ||
-      err.message ||
-      err.toString();
+    const message = err.response.data.message || err.message || err.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
+// logout user
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout();
+  localStorage.removeItem("user");
 });
 
 export const authSlice = createSlice({
@@ -65,12 +68,15 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.isError = false;
+        state.message = "";
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
+        state.user = null;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
       })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
@@ -79,12 +85,15 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.isError = false;
+        state.message = "";
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
+        state.user = null;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
